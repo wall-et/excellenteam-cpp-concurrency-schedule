@@ -5,6 +5,10 @@
 #ifndef EXCELLENTEAM_ELLA_CONCURRENCY_SCHEDULER_WALL_ET_TIME_H
 #define EXCELLENTEAM_ELLA_CONCURRENCY_SCHEDULER_WALL_ET_TIME_H
 
+#include<time.h>
+
+typedef struct timespec timespec;
+
 class Time{
 public:
     Time(unsigned long);
@@ -15,7 +19,7 @@ public:
 
 private:
 
-    long m_time;
+    timespec m_time;
 
 };
 

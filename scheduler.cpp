@@ -12,5 +12,6 @@ Scheduler::Scheduler(ITask *tasks)
     ITask * iterator;
     for(iterator = tasks; iterator ; ++iterator)
     {
+
     }
 }

@@ -5,12 +5,11 @@
 #ifndef EXCELLENTEAM_ELLA_CONCURRENCY_SCHEDULER_WALL_ET_ITASK_H
 #define EXCELLENTEAM_ELLA_CONCURRENCY_SCHEDULER_WALL_ET_ITASK_H
 
-#include <>
 
 class ITask
 {
 public:
-    ITask(unsigned long);
+    virtual ~ITask();
     virtual void run() = 0;
     virtual unsigned long getNextRunPeriod() = 0; // in milliseconds
 private:
@@ -21,6 +20,7 @@ class Printer : public ITask
 {
 public:
     Printer(unsigned long);
+    ~Printer();
     void run();
     unsigned long getNextRunPeriod(); // in milliseconds
 private:
@@ -31,16 +31,18 @@ class AntiVirus : public ITask
 {
 public:
     AntiVirus(unsigned long);
+    ~AntiVirus();
     void run();
     unsigned long getNextRunPeriod(); // in milliseconds
 private:
     unsigned long m_timeToNextRun;
 };
 
-class ConnectionTest : public ITask
+class ConnectionTest :public ITask
 {
 public:
-    Printer(unsigned long);
+    ConnectionTest(unsigned long);
+    ~ConnectionTest();
     void run();
     unsigned long getNextRunPeriod(); // in milliseconds
 private:
