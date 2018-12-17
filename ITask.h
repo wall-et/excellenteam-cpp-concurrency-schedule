@@ -9,6 +9,7 @@
 class ITask
 {
 public:
+//    virtual ITask();
     virtual ~ITask();
     virtual void run() = 0;
     virtual unsigned long getNextRunPeriod() = 0; // in milliseconds

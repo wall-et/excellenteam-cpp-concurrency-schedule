@@ -5,6 +5,7 @@
 #include <iostream>
 #include "ITask.h"
 
+//ITask::ITask() {}
 ITask::~ITask(){}
 
 Printer::Printer(unsigned long runDelay) {
