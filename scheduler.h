@@ -8,17 +8,19 @@
 #include <vector>
 #include "ITask.h"
 #include "shared_ptr.h"
-#include "time.h"
+#include "task_time.h"
 
 typedef std::pair<shared_ptr<ITask>, Time> STask;
 
 class Scheduler{
 public:
-    Scheduler(ITask *tasks);
+    Scheduler(ITask *tasks,unsigned int);
     void run();
 private:
-    ITask & getNextTask();
+    shared_ptr<ITask> * getNextTask();
     std::vector<STask> m_tasksHeap;
 };
+
+bool operator < (STask p1, STask p2);
 
 #endif //EXCELLENTEAM_ELLA_CONCURRENCY_SCHEDULER_WALL_ET_SCHEDULER_H
