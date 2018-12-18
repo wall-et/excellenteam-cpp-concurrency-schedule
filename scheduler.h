@@ -15,6 +15,7 @@ typedef std::pair<shared_ptr<ITask>, Time> STask;
 class Scheduler{
 public:
     Scheduler(ITask *tasks,unsigned int);
+    void appendTask(ITask* task);
     void run();
 private:
     shared_ptr<ITask> * getNextTask();

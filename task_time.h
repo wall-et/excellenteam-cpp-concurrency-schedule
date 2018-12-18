@@ -16,6 +16,7 @@ public:
     Time& operator +(unsigned long);
     bool operator <(Time&) const;
     bool operator ==(Time&) const;
+    long operator -(Time&) const;
 
 private:
 
