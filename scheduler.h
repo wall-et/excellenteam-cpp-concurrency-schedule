@@ -14,11 +14,14 @@ typedef std::pair<shared_ptr<ITask>, Time> STask;
 
 class Scheduler{
 public:
-    Scheduler(ITask *tasks,unsigned int);
+    Scheduler();
+    Scheduler(ITask *task);
+
     void appendTask(ITask* task);
     void run();
 private:
-    shared_ptr<ITask> * getNextTask();
+    STask * getNextTask();
+    void handleNextRun(STask*);
     std::vector<STask> m_tasksHeap;
 };
 

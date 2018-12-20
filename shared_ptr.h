@@ -73,6 +73,7 @@ shared_ptr<T>::~shared_ptr()
 {
     if(isvalid())
     {
+//        std::cout << "~~~~~~~~~~~~~shared_pointer" << std::endl;
         --(*refCount);
         release();
         refCount = NULL;

@@ -7,36 +7,48 @@
 #include "scheduler.h"
 #include <unistd.h>
 
+Scheduler::Scheduler(){
+    std::make_heap(m_tasksHeap.begin(), m_tasksHeap.end());
+}
 
-Scheduler::Scheduler(ITask *tasks, unsigned int tasksCount)
-//Scheduler::Scheduler()
+Scheduler::Scheduler(ITask *task)
 {
-    while(tasksCount--)
-    {
-        m_tasksHeap.push_back(std::make_pair(shared_ptr<ITask>(tasks),Time(tasks->getNextRunPeriod())));
-        ++tasks;
-    }
+    m_tasksHeap.push_back(std::make_pair(shared_ptr<ITask>(task),Time(task->getNextRunPeriod())));
     std::make_heap(m_tasksHeap.begin(), m_tasksHeap.end());
 }
 
 void Scheduler::run() {
-    shared_ptr<ITask>* nextTask = getNextTask();
-    long delta = (*nextTask)->getNextRunPeriod();
-    if(delta <= 0)
-        (*nextTask)->run();
-    else
-        usleep(delta*1000);
+    STask* nextTask;
+    while(!m_tasksHeap.empty()){
+        nextTask = getNextTask();
+
+        (*nextTask).second.sleep();
+        (*(*nextTask).first).run();
+        handleNextRun(nextTask);
+    }
+    std::cout << "All done!" << std::endl;
 }
 
-shared_ptr<ITask>* Scheduler::getNextTask() {
-    shared_ptr<ITask>* temp = new shared_ptr<ITask>(m_tasksHeap.front().first);
+
+STask* Scheduler::getNextTask() {
     pop_heap(m_tasksHeap.begin(),m_tasksHeap.end());
+    STask* temp = &(m_tasksHeap.back());
     return temp;
 }
 
 void Scheduler::appendTask(ITask* task){
     m_tasksHeap.push_back(std::make_pair(shared_ptr<ITask>(task),Time(task->getNextRunPeriod())));
     push_heap(m_tasksHeap.begin(), m_tasksHeap.end());
+}
+
+void Scheduler::handleNextRun(STask *task) {
+    unsigned long deltaTime =  (*((*task).first)).getNextRunPeriod();
+    if(deltaTime != 0){
+        ((*task).second) = deltaTime;
+        make_heap(m_tasksHeap.begin(), m_tasksHeap.end());
+    }else{
+        m_tasksHeap.pop_back();
+    }
 }
 
 bool operator < (STask p1, STask p2){
